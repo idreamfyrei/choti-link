@@ -1,12 +1,20 @@
 {
   "name": "choti-link",
-  "module": "index.ts",
+  "module": "index.js",
   "type": "module",
   "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "bun --watch run index.js"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.15.0"
   }
 }
