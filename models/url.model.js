@@ -1,6 +1,6 @@
-import mongoose, { trusted } from "mongoose";
+import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const urlSchema = new mongoose.Schema({
     shortId:{
         type: String,
         required: true,
@@ -17,6 +17,6 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
-const User = mongoose.model("User", userSchema);
+const URL = mongoose.model('url', urlSchema);
 
-export default User;
+export default URL;
