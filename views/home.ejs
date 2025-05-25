@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Choti Link ID</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f1f1f1;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Choti Link</h2>
+
+    <div>
+        <form action="/url" method="post">
+          <label for="">Enter the URL to Shorten</label>
+          <!-- name = data we get when we post i.e. body.url ka url -->
+          <input type="text" name="url" placeholder="https://example.com" />
+          <button type="submit">Generate</button>
+        </form>
+    </div>
+
+    <div>
+      <% if (locals.urls) { %>
+       <table>
+        <thead>
+            <th>S. no</th>
+            <th>ShortID</th>
+            <th>Redirect URL</th>
+            <th>Visit History</th>
+        </thead>
+        <tbody>
+            <% urls.forEach((url, index) => { %>
+             <tr>
+                <td><%= index + 1 %></td>
+                <td><%= url.shortID %></td>
+                <td><%= url.redirectURL %></td>
+                <td><%= url.visitHistory.length %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+      <% } %>
+    </div>
+  </body>
+</html>
