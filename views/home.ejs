@@ -21,13 +21,15 @@
 
     <div>
         <form action="/url" method="post">
-          <label for="">Enter the URL to Shorten</label>
+          <label>Enter the URL to Shorten</label>
           <!-- name = data we get when we post i.e. body.url ka url -->
           <input type="text" name="url" placeholder="https://example.com" />
           <button type="submit">Generate</button>
         </form>
     </div>
-
+    <div>
+      <h1>Your URL: http://localhost:8000/url/<%= locals.id %></h1>
+    </div>
     <div>
       <% if (locals.urls) { %>
        <table>
