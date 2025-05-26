@@ -1,8 +1,10 @@
 import express from'express';
 import connectMongoDB from './connection.js';
-import router from './routes/url.route.js';
 import path from 'path';
+
+import router from './routes/url.route.js';
 import staticRoute from './routes/static.route.js'
+import userRoute from './routes/user.route.js'
 
 const app = express();
 app.use(express.json());
@@ -19,6 +21,8 @@ connectMongoDB(process.env.MONGO_URI).then(() => console.log('MongoDB Connected'
 app.use('/url', router);
 
 app.use('/', staticRoute);
+
+app.use('/user', userRoute);
 
 app.listen(PORT, () => console.log(`Port is running on ${PORT}`));
 
