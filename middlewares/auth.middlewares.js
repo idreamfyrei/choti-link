@@ -15,4 +15,12 @@ async function allowLoggedInUser(req, res, next) {
     next();
 }
 
-export { allowLoggedInUser };
+async function checkAuth(req, res, next) {
+    const userUID = req.cookies.uuid;
+    const user = getUser(userUID);
+
+    req.user = user;
+    next();
+}
+
+export { allowLoggedInUser, checkAuth };

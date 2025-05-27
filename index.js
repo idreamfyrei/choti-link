@@ -2,8 +2,8 @@ import express from'express';
 import connectMongoDB from './connection.js';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import { allowLoggedInUser } from './middlewares/auth.middlewares.js';
 
+import { allowLoggedInUser, checkAuth } from './middlewares/auth.middlewares.js';
 import router from './routes/url.route.js';
 import staticRoute from './routes/static.route.js'
 import userRoute from './routes/user.route.js'
@@ -24,7 +24,7 @@ connectMongoDB(process.env.MONGO_URI).then(() => console.log('MongoDB Connected'
 //* Inline Middleware
 app.use('/url', allowLoggedInUser, router);
 
-app.use('/', staticRoute);
+app.use('/',checkAuth, staticRoute);
 
 app.use('/user', userRoute);
 
