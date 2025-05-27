@@ -14,10 +14,15 @@ async function handleUserLogin(req, res) {
     return res.render('login', {error: 'Invalid username or id'});
   }
 
-  const sessionID = uuidv4();
-  setUser(sessionID, user);
+  // Using UUID as sessionID
+  // const sessionID = uuidv4();
+  // setUser(sessionID, user);
+  // res.cookie('uuid', sessionID);
 
-  res.cookie('uuid', sessionID);
+  // Using jwt token
+  const token = setUser(user);
+
+  res.cookie('uuid', token);    
   return res.redirect('/');
 }
 
