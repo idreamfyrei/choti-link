@@ -1,3 +1,4 @@
+import e from "express";
 import URL from "../models/url.model.js";
 import { nanoid } from "nanoid";
 
@@ -5,12 +6,15 @@ async function handleGetUrlShortener(req, res) {
   const body = req.body;
   if (!body.url) return res.status(400).json({ error: "url is required" });
   const shortID = nanoid(8);
+  
+  const existingURL = await URL.findOne({ redirectURL: body.url });
+  if(existingURL) return res.render('home', ({ id: existingURL.shortID }));
 
   await URL.create({
     shortID: shortID,
     redirectURL: body.url,
     visitHistory: [],
-    //createdBy: req.user._id
+    createdBy: req.user._id,
   });
 
   return res.render('home', { id: shortID } )
