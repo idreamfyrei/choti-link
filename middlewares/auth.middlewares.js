@@ -1,26 +1,36 @@
-import { getUser } from '../utils/auth.utils.js'
+// Headers based authentication and role based authorization
+import { get } from "mongoose";
+import { getUser } from "../utils/auth.utils.js";
 
-async function allowLoggedInUser(req, res, next) {
-    const userUID = req.cookies.uuid;
+function checkForAuth(req, res, next) {
+  // const authHeaderValue = req.headers["authorization"];
+  // if (!authHeaderValue || !authHeaderValue.startsWith("Bearer ")) {
+  //   return next();
+  // }
+  // const token = authHeaderValue.split(" ")[1];
+  // const user = getUser(token);
 
-    if (!userUID) {
-        return res.redirect('/login');
-    }
-    const user = getUser(userUID);
-    if(!user) {
-        return res.redirect('/login');
-    }
 
-    req.user = user;
-    next();
+  const tokenCookie = req.cookies?.token;
+   if (!tokenCookie) {
+    return next();
+  }
+
+  const user = getUser(tokenCookie);
+  req.user = user;
+  next();
 }
 
-async function checkAuth(req, res, next) {
-    const userUID = req.cookies.uuid;
-    const user = getUser(userUID);
+function restrictUser(roles = []) {
+  return function (req, res, next) {
+    if (!res.user) return res.redirect("/login");
 
-    req.user = user;
-    next();
+    if (!roles.includes(req.user.role)) {
+      return res.end("Unauthorized");
+    }
+
+    return next();
+  };
 }
 
-export { allowLoggedInUser, checkAuth };
+export { checkForAuth, restrictUser };

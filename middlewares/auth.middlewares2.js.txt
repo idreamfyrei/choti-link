@@ -1,0 +1,37 @@
+// Headers based authentication
+import { get } from 'mongoose';
+import { getUser } from '../utils/auth.utils.js'
+
+//* Middleware to check if user is logged in before refactor
+
+async function allowLoggedInUser(req, res, next) {
+    const userUID = req.headers['authorization'];
+
+    if (!userUID) {
+        return res.redirect('/login');
+    }
+    // const user = getUser(userUID);
+    const token = userUID.split(' ')[1]; // Bearer <token> split to get token
+    const user = getUser(token);
+    if(!user) {
+        return res.redirect('/login');
+    }
+
+    req.user = user;
+    next();
+}
+
+async function checkAuth(req, res, next) {
+    const userUID = req.headers['authorization'];
+    if (!userUID) {
+        req.user = null;
+        return next();
+    }
+    const token = userUID.split(' ')[1]; // Bearer <token> split to get token
+    const user = getUser(token);
+
+    req.user = user;
+    next();
+}
+
+export { allowLoggedInUser, checkAuth };
